@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    {% load static %}
+    <!-- load reset.css -->
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <!-- load main.css -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <nav>
+        <ul class="wrapper">
+            <li><a href="{% url 'home' %}">home</a></li>
+            <li><a href="">link #1</a></li>
+            <li><a href="">link #2</a></li>
+            <li><a href="">link #3</a></li>
+        </ul>
+    </nav>
+
+    <!-- message -->
+    {% for message in messages %}
+    <div class="message {{ message.tags }}">
+        <div>{{ message }}</div>
+        <div class="closebtn" onclick="this.parentElement.style.display='none';">&times;</div>
+    </div>
+    {% endfor %}
+
+    <main class="wrapper">
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+</body>
+
+</html>
