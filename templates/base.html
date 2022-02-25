@@ -19,9 +19,18 @@
     <nav>
         <ul class="wrapper">
             <li><a href="{% url 'home' %}">home</a></li>
-            <li><a href="">link #1</a></li>
-            <li><a href="">link #2</a></li>
-            <li><a href="">link #3</a></li>
+            <li><a href="{% url 'admin:index' %}">admin</a></li>
+            
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'customer:profile' %}">profile</a></li>
+            <li><a href="{% url 'customer:logout' %}">logout</a></li>
+            
+            {% else %}
+            <li><a href="{% url 'customer:signup' %}">signup</a></li>
+            <li><a href="{% url 'customer:login' %}">login</a></li>
+              
+            {% endif %}
+            
         </ul>
     </nav>
 

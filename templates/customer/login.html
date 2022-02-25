@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}login{% endblock title %}
+
+{% block content %}
+<form method="post" style="margin-bottom: .5rem;">
+    {% csrf_token %}
+    {% include "form.html" with form=form %}
+    <button type="submit" class="btn">login</button>
+</form>
+<p>if you don't have account, <a href="{% url 'customer:signup' %}" class="link">signup</a> from here.</p>
+{% endblock content %}

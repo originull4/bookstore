@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}proifle{% endblock title %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between;">
+
+    <div class="left">
+        <div class="border-bottom mb1">
+            <span class="title">username:</span>
+            <span>{{ user.username }}</span>
+        </div>
+        <div class="border-bottom mb1">
+            <span class="title">email:</span>
+            <span>{{ user.email }}</span>
+        </div>
+        <div class="border-bottom mb1">
+            <span class="title">firstname:</span>
+            <span>{{ user.first_name }}</span>
+        </div>
+        <div class="border-bottom mb1">
+            <span class="title">lastname:</span>
+            <span>{{ user.last_name }}</span>
+        </div>
+        <div class="border-bottom mb1">
+            <span class="title">registration date:</span>
+            <span>{{ user.date_joined }}</span>
+        </div>
+        <div class="border-bottom mb1">
+            <span class="title">gender:</span>
+            <span>{{ customer.gender }}</span>
+        </div>
+    </div>
+
+    <div class="right">
+        <img src="{{ customer.avatar.url }}" alt="User Avatar" style="height: 200px; border-radius: 40%;">
+    </div>
+</div>
+
+<div class="mb1">
+    <a href="{% url 'customer:profile_update' %}" class="link">update profile</a>
+</div>
+<div>
+    <a href="{% url 'customer:password_update' %}" class="link">change password</a>
+</div>
+
+{% endblock content %}

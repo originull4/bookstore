@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}profile update{% endblock title %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" style="margin-bottom: .5rem;">
+    {% csrf_token %}
+    {% include "form.html" with form=user_form %}
+    {% include "form.html" with form=customer_form %}
+    <button type="submit" class="btn">update profile</button>
+</form>  
+{% endblock content %}

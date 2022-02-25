@@ -1,0 +1,15 @@
+{% for field in form %}
+<div style="margin-bottom: .5rem;">
+    <!-- label and input -->
+    <label for="{{ field.id_for_label }}" style="width: 15rem; display: inline-block;">{{ field.label }} :</label>
+    {{ field }}
+    <!-- help text -->
+    {% if field.help_text %}
+    <div style="font-size: .8rem; margin-top: .5rem;">{{ field.help_text }}</div>
+    {% endif %}
+    <!-- error -->
+    {% for error in field.errors %}
+    <div style="font-size: .8rem; color: var(--red);">{{ error }}</div>
+    {% endfor %}
+</div>
+{% endfor %}
