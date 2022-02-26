@@ -3,27 +3,34 @@
 {% block title %}genres list{% endblock title %}
 
 {% block content %}
-<form action="{% url 'book:genre_list' %}" method="get">
-    <div class="genre_search_form" style="margin-bottom: .5rem;">
-        <input type="text" name="genre_title" placeholder="search by genre title" autofocus>
-        <button type="submit">Search</button>
-    </div>
+
+<form action="{% url 'book:genres' %}" method="get" style="margin-bottom: .5rem;">
+    <input type="text" name="genre_title" placeholder="search by genre title" autofocus style="width: 100%;">
 </form>
 
 {% for genre in genres %}
-<a href="{% url 'book:genre_books' genre.slug %}" class="box-link">
+<a href="{% url 'book:genre_books' genre.slug %}" style="text-decoration: none; color: var(--dark);">
     <div class="box">
-        <span class="header">{{ genre.title }}</span>
-        <span style="color: var(--red);"> ( books : {{ genre.books.count }} )</span><br>
+        <div style="margin-bottom: .5rem;">
+            <span class="header">{{ genre.title }}</span>
+        </div>
 
-        <span class="title">about genre: </span>
-        {% if genre.description %}
-        <span>{{ genre.description }}</span><br>
-        {% else %}
-        <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. At recusandae sed amet dignissimos harum eaque
-            quo eum repellendus a neque voluptates blanditiis, incidunt, aliquid fugit sint sit, totam adipisci
-            labore.</span>
-        {% endif %}
+        <div style="margin-bottom: .5rem;">
+            <span class="title">Number of books in this genre: </span>
+            <span>{{ genre.books.count }}</span>
+        </div>
+
+        <div style="margin-bottom: .5rem;">
+            <span class="title">about genre: </span>
+            {% if genre.description %}
+            <span>{{ genre.description }}</span>
+            {% else %}
+            <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. At recusandae sed amet dignissimos harum
+                eaque
+                quo eum repellendus a neque voluptates blanditiis, incidunt, aliquid fugit sint sit, totam adipisci
+                labore.</span>
+            {% endif %}
+        </div>
     </div>
 </a>
 {% endfor %}

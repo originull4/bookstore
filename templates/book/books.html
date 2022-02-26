@@ -10,7 +10,7 @@
 
 {% for book in books %}
 <a href="{% url 'book:book_detail' book.slug %}" style="text-decoration: none; color: var(--dark);">
-    <div class="box">
+    <div class="box" style="display: flex; justify-content: space-between;">
         <div>
             <div style="margin-bottom: .5rem;">
                 <span class="title">title: </span>
