@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}order receipt{% endblock title %}
+
+{% block content %}
+<span class="header">order receipt</span>
+
+<br><br>
+<span class="title">refrence code: </span>
+<span>{{ order.order_id }}</span>
+
+<br><br>
+<span class="title">order added date: </span>
+<span>{{ order.date_added }}</span>
+
+<br><br>
+<span class="title">order completed date: </span>
+<span>{{ order.dete_completed }}</span>
+
+<br><br>
+<span class="title">order total price: </span>
+<span>{{ order.amount }}</span>
+
+<br><br>
+<span class="title">ordered books: </span>
+{% for order_item in order.items.all %}
+<br>
+<span>{{ forloop.counter }}. {{ order_item.book.title }}</span>
+<a href="{{ order_item.book.pdf.url }}" class="link">download</a>  
+{% endfor %}
+
+<br><br>
+<p>you can also see the download link of all the books you have purchased 
+    from the <a href="{% url 'customer:user_books' %}" class="link">ordered books</a> menu</p>
+
+{% endblock content %}

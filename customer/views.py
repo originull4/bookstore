@@ -1,8 +1,11 @@
-from django.shortcuts import redirect, render
+from datetime import datetime
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib import messages
 from .forms import LoginForm, UserUpdateForm, CustomerUpdateForm
+from .models import Order, OrderItem
+from book.models import Book
 from core.utils import login_required, logout_required
 
 
@@ -88,3 +91,84 @@ def password_update_view(request):
     return render(request, template, {'form': form})
 
 
+@login_required
+def cart_add_view(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    OrderItem.objects.get_or_create(order=request.user.customer.cart, book=book)
+    messages.success(request, f'{book} added to your cart.')
+    return redirect('book:book_detail', book_slug=book.slug)
+    
+
+@login_required
+def cart_remove_view(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    order_item = get_object_or_404(OrderItem, order=request.user.customer.cart, book=book)
+    order_item.delete()    
+    messages.success(request, f'{book} removed from your cart.')
+    sender = request.GET.get('sender')
+    if sender == 'cart': return redirect('customer:cart')
+    return redirect('book:book_detail', book_slug=book.slug)
+    
+
+@login_required
+def cart_view(request):
+    template = 'customer/cart.html'
+    cart_items = [item.book for item in request.user.customer.cart.items.all()]
+    return render(request, template, {'cart_items': cart_items})
+
+
+@login_required
+def checkout_view(request):
+    template = 'customer/checkout.html'
+    cart_items = [item.book for item in request.user.customer.cart.items.all()]
+    if len(cart_items) == 0:
+        messages.error(request, 'your cart is empty, first add some book in your cart')
+        return redirect('book:book_list')
+    return render(request, template, {'cart_items': cart_items})
+
+
+@login_required
+def fake_payment_view(request):
+    customer = request.user.customer
+    order = customer.cart
+    
+    if order.items.all().count() == 0:
+        messages.error(request, "you haven't any pending order.")
+        return redirect('customer:cart')
+
+    order.amount = customer.cart_total_price
+    order.complete = True
+    order.dete_completed = datetime.now()
+    order.save()
+
+    messages.success(request, 'your payment was successfully processed.')
+
+    return redirect('customer:receipt', order_id=order.order_id)
+
+
+@login_required
+def receipt_view(request, order_id):
+    template = 'customer/receipt.html'
+    order = get_object_or_404(Order, pk=order_id)
+    return render(request, template, {'order': order})
+
+
+@login_required
+def user_books_view(request):
+    template = 'customer/user_books.html'
+    books = request.user.customer.ordered_books
+    return render(request, template, {'books': books})
+
+
+@login_required
+def orders_view(request):
+    template = 'customer/orders.html'
+    orders = Order.objects.filter(customer=request.user.customer)
+    return render(request, template, {'orders': orders})
+
+
+@login_required
+def order_items_view(request, order_id):
+    template = 'customer/order_items.html'
+    order = get_object_or_404(Order, pk=order_id)
+    return render(request, template, {'order': order})

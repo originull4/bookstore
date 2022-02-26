@@ -16,23 +16,25 @@
 <body>
 
     <!-- navbar -->
-    <nav>
-        <ul class="wrapper">
-            <li><a href="{% url 'home' %}">home</a></li>
-            <li><a href="{% url 'admin:index' %}">admin</a></li>
-            
+
+    <div class="navbar">
+        <div class="wrapper">
+            <a href="{% url 'home' %}">home</a>
+            <a href="{% url 'book:books' %}">books</a>
+
             {% if user.is_authenticated %}
-            <li><a href="{% url 'customer:profile' %}">profile</a></li>
-            <li><a href="{% url 'customer:logout' %}">logout</a></li>
-            
+            <a href="{% url 'customer:cart' %}">cart</a>
+            <a href="{% url 'customer:user_books' %}">ordered books</a>
+            <a href="{% url 'customer:profile' %}">profile</a>
+            <a href="{% url 'customer:logout' %}">logout</a>
+
             {% else %}
-            <li><a href="{% url 'customer:signup' %}">signup</a></li>
-            <li><a href="{% url 'customer:login' %}">login</a></li>
-              
+            <a href="{% url 'customer:signup' %}">signup</a>
+            <a href="{% url 'customer:login' %}">login</a>
+
             {% endif %}
-            
-        </ul>
-    </nav>
+        </div>
+    </div>
 
     <!-- message -->
     {% for message in messages %}

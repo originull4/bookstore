@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}checkout{% endblock title %}
+
+
+{% block content %}
+<span class="header">order summary</span>
+
+<br><br>
+<span class="title">order total price: </span>
+<span>{{ user.customer.cart_total_price }}$</span>
+
+<br><br>
+<span class="title">books list: </span>
+
+<br>
+{% for book in cart_items %}
+<span>{{ forloop.counter }}. {{ book.title }} ({{ book.price }}$)</span><br>
+{% endfor %}
+
+<br><br>
+<a href="{% url 'customer:fake_payment' %}" class="btn">pay with card</a>
+
+{% endblock content %}

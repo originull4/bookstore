@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}cart items{% endblock title %}
+
+{% block content %}
+
+    {% if cart_items|length == 0 %}
+        <p>there is no item in your cart.</p>  
+
+    {% else %}
+        <table class="table">
+            <tr>
+                <th>#</th>
+                <th>title</th>
+                <th>author</th>
+                <th>price</th>
+                <th>remove</th>
+            </tr>
+
+            {% for book in cart_items %}
+            <tr class="border-bottom">
+                <td>{{ forloop.counter }}</td>
+                <td>
+                    <a class="link" href="{% url 'book:book_detail' book.slug %}">{{ book.title }}</a>
+                </td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.price }}$</td>
+                <td>
+                    <a class="link remove" href="{% url 'customer:cart_remove' book.id %}?sender=cart">
+                        remove from your cart</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="{% url 'customer:checkout' %}" class="btn">checkout {{ user.customer.cart_total_price }}$</a>
+
+    {% endif %}
+
+{% endblock content %}

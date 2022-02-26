@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}book list{% endblock title %}
+
+{% block content %}
+
+<form action="{% url 'book:books' %}" method="get" style="margin-bottom: .5rem;">
+    <input type="text" name="book_title" placeholder="search by book title" autofocus style="width: 100%;">
+</form>
+
+{% for book in books %}
+<a href="{% url 'book:book_detail' book.slug %}" style="text-decoration: none; color: var(--dark);">
+    <div class="box">
+        <div>
+            <div style="margin-bottom: .5rem;">
+                <span class="title">title: </span>
+                <span>{{ book.title }}</span>
+            </div>
+            <div style="margin-bottom: .5rem;">
+                <span class="title">author: </span>
+                <span>{{ book.author.name }}</span>
+            </div>
+            <div style="margin-bottom: .5rem;">
+                <span class="title">price: </span>
+                <span>{{ book.price }}$</span>
+            </div>
+            <div style="margin-bottom: .5rem;">
+                <span class="title">pages: </span>
+                <span>{{ book.pages }}</span>
+            </div>
+            <div style="margin-bottom: .5rem;">
+                <span class="title">language: </span>
+                <span>{{ book.language }}</span>
+            </div>
+        </div>
+        <div style="height: 200px;">
+            <img src="{{ book.cover.url }}" alt="{{ book.title }} cover" style="height: 200px; width: 150px;">
+        </div>
+    </div>
+</a>
+{% endfor %}
+{% endblock content %}

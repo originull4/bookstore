@@ -3,7 +3,7 @@
 :root {
     --dark: #202020;
     --light: #CCCCCC;
-    --gray: #555555;
+    --silver: #999999;
     --green: #1F441E;
     --red: #C84B31;
     --blue: #2D4263;
@@ -15,28 +15,24 @@ body {
     color: var(--dark);
 }
 
+* {
+    box-sizing: border-box;
+}
+
 /* navbar */
-nav {
+.navbar {
     background-color: var(--dark);
     height: 2rem;
     line-height: 2rem;
 }
 
-nav ul {
-    list-style-type: none;
-}
-
-nav ul li {
-    display: inline;
-}
-
-nav ul li a {
+.navbar a {
     text-decoration: none;
     color: var(--light);
     margin-right: 1.5rem;
 }
 
-nav ul li a:hover {
+.navbar a:hover {
     filter: brightness(75%);
 }
 
@@ -87,8 +83,12 @@ main {
     margin-bottom: .5rem;
 }
 
+.title {
+    font-weight: 700;
+}
+
 .link {
-    color: var(--dark);
+    color: var(--blue);
 }
 
 .link:hover {
@@ -110,11 +110,10 @@ main {
 
 .btn:hover {
     filter: brightness(75%);
-
 }
 
 input[type=text], input[type=password], input[type=file] {
-    padding: .2rem .2rem;
+    padding: .3rem .2rem;
     box-sizing: border-box;
     border: 1px solid var(--light);
     -webkit-transition: 0.5s;
@@ -124,4 +123,40 @@ input[type=text], input[type=password], input[type=file] {
 
 input[type=text]:focus, input[type=password]:focus, input[type=file]:focus {
     border: 1px solid var(--dark);
+}
+
+.box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+    padding: .5rem;
+    border: 3px solid var(--dark);
+
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+}
+
+.box:hover {
+    background-color: var(--silver);
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.table th {
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+.table td, .table th {
+    border: 1px solid var(--silver);
+    padding: 8px;
+}
+
+.table tr:hover {
+    background-color: #ddd;
 }

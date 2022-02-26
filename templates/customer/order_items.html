@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}order items{% endblock title %}
+
+{% block content %}
+
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>title</th>
+        <th>author</th>
+        <th>price</th>
+    </tr>
+    {% for item in order.items.all %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>
+            <a class="link" href="{% url 'book:book_detail' item.book.slug %}">{{ item.book.title }}</a>
+        </td>
+        <td>{{ item.book.author }}</td>
+        <td>{{ item.book.price }}$</td>
+
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

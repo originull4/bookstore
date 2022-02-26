@@ -11,4 +11,5 @@ urlpatterns = [
     path('', RedirectView.as_view(pattern_name='home')),
 
     path('customer/', include('customer.urls', namespace='customer')),
+    path('book/', include('book.urls', namespace='book')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

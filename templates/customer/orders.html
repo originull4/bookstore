@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}order list{% endblock title %}
+
+{% block content %}
+    {% if orders|length == 0 %}
+        <span>you have not any orders yet.</span>
+
+    {% else %}
+        <table class="table">
+            <tr>
+                <th>#</th>
+                <th>order id (refrence code)</th>
+                <th>date added</th>
+                <th>amount</th>
+                <th>complete</th>
+                <th>date completed</th>
+                <th>--</th>
+            </tr>
+            {% for order in orders %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ order.order_id }}</td>
+                <td>{{ order.date_added }}</td>
+                <td>{{ order.amount }}</td>
+                <td>{{ order.complete }}</td>
+                <td>{{ order.dete_completed }}</td>
+                <td><a href="{% url 'customer:order_items' order.order_id %}">order items</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock content %}

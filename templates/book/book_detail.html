@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }} detail{% endblock title %}
+
+{% block content %}
+<div style="display: flex;">
+    <div>
+        <div style="margin-bottom: .5rem;">
+            <span class="header">{{ book.title }}</span>
+        </div>
+
+        <div style="margin-bottom: .5rem;">
+            <span class="title">author: </span>
+            <a class="link" href="{% url 'book:author_books' book.author.slug %}">{{ book.author.name }}</a>
+        </div>
+
+        <div style="margin-bottom: .5rem;">
+            <span class="title">price: </span>
+            <span>{{ book.price }}$</span>
+        </div>
+
+        <div style="margin-bottom: .5rem;">
+            <span class="title">pages: </span>
+            <span>{{ book.pages }}</span>
+        </div>
+
+        <div style="margin-bottom: .5rem;">
+            <span class="title">language: </span>
+            <span>{{ book.language }}</span>
+        </div>
+
+        <div style="margin-bottom: .5rem;">
+            <span class="title">description: </span>
+            <span>{{ book.description }}</span>
+        </div>
+
+        <div style="margin-bottom: .5rem;">
+            <span class="title">published year: </span>
+            <span>{{ book.published_year }}</span>
+        </div>
+
+        <div style="margin-bottom: .5rem;">
+            <span class="title">genres: </span>
+            <span>
+                {% for genre in book.genres.all %}
+                <a class="link" href="{% url 'book:genre_books' genre.slug %}" style="margin-right: .5rem;">{{ genre }}</a>
+                {% endfor %}
+            </span>
+        </div>
+
+        <div style="margin-top: 1rem;">
+            
+            <!-- login -->
+            {% if status == 0 %}
+            <span>
+                if you want to add this book to your cart first
+                <a class="link" href="{% url 'customer:login' %}">login</a>
+            </span>
+
+            <!-- add to cart -->
+            {% elif status == 1 %}
+            <a href="{% url 'customer:cart_add' book.id %}" class="btn">add to your cart</a>
+
+            <!-- remove from cart -->
+            {% elif status == 2 %}
+            <a class="btn btn-rm" href="{% url 'customer:cart_remove' book.id %}?sender=detail">remove from your cart</a>
+
+            <!-- download book -->
+            {% elif status == 3 %}
+            <a class="btn" href="{{ book.pdf.url }}">download book</a>
+
+            {% endif %}
+        </div>
+
+
+    </div>
+    <div>
+        <img src="{{ book.cover.url }}" alt="{{ book.title }} cover" style="width: 200px; height: 300px; margin-left: 2rem;">
+    </div>
+</div>
+
+{% endblock content %}

@@ -14,6 +14,28 @@ class Customer(models.Model):
     gender = models.CharField(max_length=6, blank=True, choices=GENDER_CHOICES)
     avatar = models.ImageField(upload_to=avatar_upload, default='avatars/default.png')
 
+    @property
+    def ordered_books(self):
+        books = []
+        completed_orders = [order for order in self.orders.all() if order.complete]
+        for order in completed_orders:
+            for item in order.items.all(): books.append(item.book)
+        return books
+
+    @property
+    def cart(self):
+        order, order_created = Order.objects.get_or_create(customer=self, complete=False)
+        return order
+        
+    @property
+    def cart_total_price(self):
+        return sum([item.book.price for item in self.cart.items.all()])
+
+    def book_status(self, book):
+        if book in self.ordered_books: return 3
+        elif book in [item.book for item in self.cart.items.all()]: return 2
+        else: return 1
+
     def __str__(self) -> str:
         return self.user.username
 
@@ -27,7 +49,7 @@ class Order(models.Model):
     dete_completed = models.DateTimeField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return self.customer.user.username
+        return f'{self.customer.user.username} ({str(self.order_id)})'
 
     class Meta:
         ordering = ['-date_added']
@@ -38,7 +60,7 @@ class OrderItem(models.Model):
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
-        return f'{self.order.profile.user.username}, {self.book.title}'
+        return f'{self.order.customer.user.username}, {self.book.title}'
 
 
 # create customer object for user when new user created

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}ordered books list{% endblock title %}
+
+{% block content %}
+
+    {% if books|length == 0 %}
+        <span>you have not purchased any books yet.</span>
+
+    {% else %}
+        <table class="table">
+            <tr>
+                <th>#</th>
+                <th>title</th>
+                <th>author</th>
+                <th>pages</th>
+                <th>download link</th>
+            </tr>
+            {% for book in books %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                    <a class="link" href="{% url 'book:book_detail' book.slug %}">{{ book.title }}</a>
+                </td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.pages }}</td>
+                <td>
+                    <a class="link" href="{{book.pdf.url}}">download</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+  
+{% endblock content %}
