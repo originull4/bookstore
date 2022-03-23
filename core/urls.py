@@ -1,3 +1,4 @@
+from ast import increment_lineno
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
@@ -12,4 +13,6 @@ urlpatterns = [
 
     path('customer/', include('customer.urls', namespace='customer')),
     path('book/', include('book.urls', namespace='book')),
+
+    path('api/user/', include('customer.api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 from uuid import uuid4
 from core.utils import avatar_upload
 from book.models import Book
-
+from rest_framework.authtoken.models import Token
 
 class Customer(models.Model):
     GENDER_CHOICES = (('Male', 'Male'),('Female', 'Female'))
@@ -30,6 +30,7 @@ class Customer(models.Model):
     @property
     def cart_total_price(self):
         return sum([item.book.price for item in self.cart.items.all()])
+    
 
     def book_status(self, book):
         if book in self.ordered_books: return 3
@@ -64,10 +65,12 @@ class OrderItem(models.Model):
 
 
 # create customer object for user when new user created
+# generate a token for the new user
 @receiver(post_save, sender=User)
 def create_customer(sender, instance, created, **kwargs):
     if created:
         Customer.objects.create(user=instance)
+        Token.objects.create(user=instance)
     instance.customer.save()
 
 

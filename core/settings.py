@@ -18,6 +18,9 @@ INSTALLED_APPS = [
 
     'customer.apps.CustomerConfig',
     'book.apps.BookConfig',
+
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
