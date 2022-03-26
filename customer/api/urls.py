@@ -1,19 +1,16 @@
-from django.urls import path
-from .views import (
-    UserListAPIView,
-    UserDetailAPIView,
-    UserCreateAPIView,
-    UserUpdateAPIView,
-    LoginAPIView,
-    PasswordChangeAPIView,
-    
-)
+from .viewsets import UserViewSet
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [
-    path('create/', UserCreateAPIView.as_view()),
-    path('list/', UserListAPIView.as_view()),
-    path('detail/<int:id>/', UserDetailAPIView.as_view(), name='user-detail'),
-    path('update/<int:id>/', UserUpdateAPIView.as_view()),
-    path('login/', LoginAPIView.as_view()),
-    path('password/change/<int:id>/', PasswordChangeAPIView.as_view())
-]
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet, basename='user')
+urlpatterns = router.urls
+
+
+# 'users/' [name='user-list'] GET -> return users list
+# 'users/' [name='user-list'] POST -> create new staff user
+# 'users/<int:pk>/' [name='user-detail'] GET -> return user detail
+# 'users/<int:pk>/' [name='user-detail'] PUT -> update user detail
+# 'users/<int:pk>/' [name='user-detail'] DELETE -> delete user
+# 'users/login/' [name='user-login'] POST -> return user token key
+# 'users/<int:pk>/change_password/' [name='user-change-password'] POST -> change password

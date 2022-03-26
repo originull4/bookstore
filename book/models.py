@@ -9,10 +9,10 @@ class Author(models.Model):
     description = models.TextField(verbose_name='about author', blank=True, null=True)
     slug = models.SlugField(unique=True)
 
-    def clean(self) -> None:
+    def save(self, *args, **kwargs):
         self.name = str(self.name).lower()
         self.slug = slugify(self.name)
-        return super().clean()  
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.name
@@ -23,10 +23,10 @@ class Genre(models.Model):
     description = models.TextField(verbose_name='description', blank=True, null=True)
     slug = models.SlugField(unique=True)
 
-    def clean(self) -> None:
+    def save(self, *args, **kwargs):
         self.title = str(self.title).lower()
         self.slug = slugify(self.title)
-        return super().clean()  
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.title
@@ -46,12 +46,12 @@ class Book(models.Model):
     genres = models.ManyToManyField(Genre, related_name='books', blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def clean(self) -> None:
+    def save(self, *args, **kwargs):
         self.title = str(self.title).lower()
         self.description = str(self.description).lower()
         self.language = str(self.language).lower()
         self.slug = slugify(self.title)
-        return super().clean()  
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f'{self.title} by {self.author.name}'

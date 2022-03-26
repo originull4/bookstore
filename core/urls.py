@@ -14,5 +14,10 @@ urlpatterns = [
     path('customer/', include('customer.urls', namespace='customer')),
     path('book/', include('book.urls', namespace='book')),
 
-    path('api/user/', include('customer.api.urls')),
+    # path('api/user/', include('customer.api.urls')),
+    path('api/', include('book.api.urls')),
+    path('api/', include('customer.api.urls'))
+    # path('api/authors/', include('book.api.author_urls')),
+    # path('api/books/', include('book.api.book_urls')),
+    # path('api/books/', include('book.api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
