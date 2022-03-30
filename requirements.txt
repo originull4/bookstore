@@ -9,7 +9,6 @@ idna==3.3
 Pillow==9.0.1
 pycodestyle==2.8.0
 pytz==2021.3
-requests==2.27.1
 sqlparse==0.4.2
 toml==0.10.2
 urllib3==1.26.9

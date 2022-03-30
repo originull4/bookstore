@@ -30,6 +30,11 @@ class Customer(models.Model):
     @property
     def cart_total_price(self):
         return sum([item.book.price for item in self.cart.items.all()])
+
+    def update_cart_total_price(self):
+        cart = self.cart
+        cart.amount = self.cart_total_price
+        cart.save()
     
 
     def book_status(self, book):

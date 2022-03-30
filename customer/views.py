@@ -95,6 +95,7 @@ def password_update_view(request):
 def cart_add_view(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     OrderItem.objects.get_or_create(order=request.user.customer.cart, book=book)
+    request.user.customer.update_cart_total_price()
     messages.success(request, f'{book} added to your cart.')
     return redirect('book:book_detail', book_slug=book.slug)
     
@@ -103,7 +104,8 @@ def cart_add_view(request, book_id):
 def cart_remove_view(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     order_item = get_object_or_404(OrderItem, order=request.user.customer.cart, book=book)
-    order_item.delete()    
+    order_item.delete()
+    request.user.customer.update_cart_total_price()
     messages.success(request, f'{book} removed from your cart.')
     sender = request.GET.get('sender')
     if sender == 'cart': return redirect('customer:cart')

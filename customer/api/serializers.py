@@ -1,15 +1,16 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, update_session_auth_hash
-from customer.models import Customer
+from customer.models import Customer, Order, OrderItem
 from rest_framework.authtoken.models import Token
+from book.api.serializers import BookSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
 
     gender = serializers.CharField(source='customer.gender', required=False)
     avatar = serializers.ImageField(source='customer.avatar', required=False)
-    user_detail_url = serializers.HyperlinkedIdentityField(view_name='user-detail', read_only=True)
+    # user_detail_url = serializers.HyperlinkedIdentityField(view_name='user-detail', read_only=True)
     password = serializers.CharField(write_only=True, required=False)
     token = serializers.SerializerMethodField(read_only=True)
 
@@ -40,7 +41,8 @@ class UserSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
     def get_token(self, obj):
-        return Token.objects.get(user=obj).key
+        return obj.auth_token.key
+
 
 class LoginSerializer(serializers.Serializer):
 
@@ -88,3 +90,22 @@ class PasswordChangeSerializer(serializers.ModelSerializer):
         instance.save()
         update_session_auth_hash(self.context['request'], instance)
         return instance
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    items_count = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+    def get_items_count(self, obj):
+        return len(obj.items.all())
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    book = BookSerializer()
+
+    class Meta:
+        model = OrderItem
+        fields = ('book',)
