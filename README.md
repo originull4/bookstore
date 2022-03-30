@@ -1,4 +1,4 @@
-## Bookstore project using [Django](https://www.djangoproject.com/)
+## Bookstore project using [Django](https://www.djangoproject.com/) and [Django REST framework](https://www.django-rest-framework.org/)
 
 ## Setting up the VirtualEnv and install dependencies
 We will use [Virtualenv](https://pypi.org/project/virtualenv/) to setup the VirtualEnv.
